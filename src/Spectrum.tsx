@@ -1,78 +1,67 @@
-import { useState, memo } from "react";
-import { Button, Flex, Grid, View } from "@adobe/react-spectrum";
+import { useState, useMemo } from "react";
+import { Badge, Button, Grid } from "@adobe/react-spectrum";
 
-const Footer = memo(() => {
-  return <View backgroundColor="seafoam-600" gridArea="footer" height="100%" />;
-});
+import { View } from "./components";
+import { GridArea, ViewMode } from "./enums";
 
 function Spectrum() {
-  const [count, setCount] = useState(20);
+  const [mode, setMode] = useState<ViewMode.CONTENT | ViewMode.SIDE_BY_SIDE>(
+    ViewMode.SIDE_BY_SIDE
+  );
+
+  const handleModeChange = () => {
+    setMode((prevMode) =>
+      prevMode === ViewMode.CONTENT ? ViewMode.SIDE_BY_SIDE : ViewMode.CONTENT
+    );
+  };
+
+  const columns = useMemo<string[]>(() => {
+    const config = {
+      [ViewMode.SIDE_BY_SIDE]: ["50px", "1fr", "1fr"],
+      [ViewMode.CONTENT]: ["50px", "1fr"],
+    };
+
+    return config[mode];
+  }, [mode]);
 
   return (
     <Grid
-      areas={{
-        base: ["header", "nav", "content", "footer"],
-        M: [
-          "header   header",
-          "nav      content",
-          "nav      content",
-          "footer   footer",
-        ],
-        L: [
-          "header header  header",
-          "nav    content toc",
-          "nav    content toc",
-          "footer footer  footer",
-        ],
-      }}
-      columns={{
-        M: ["size-2000", "1fr"],
-        L: [`${count}%`, "1fr"],
-      }}
-      rows={["size-1000", "1fr", "1fr", "size-1000"]}
+      areas={[`${GridArea.SIDEBAR} ${GridArea.LEFT} ${GridArea.MAIN}`]}
+      columns={columns}
       gap="size-100"
       height="100vh"
     >
-      {/* <View backgroundColor="celery-600" gridArea="header" height="100%" /> */}
-      <div style={{ background: "red", gridArea: "header" }}>test</div>
-      <View backgroundColor="blue-600" gridArea="nav" height="100%">
-        <Flex
-          direction={{ base: "row", M: "column" }}
-          gap="size-100"
-          margin="size-100"
-        >
-          <View
-            backgroundColor="static-gray-50"
-            height="size-250"
-            minWidth="size-900"
-          />
-          <View
-            backgroundColor="static-gray-50"
-            height="size-250"
-            minWidth="size-900"
-          />
-          <View
-            backgroundColor="static-gray-50"
-            height="size-250"
-            minWidth="size-900"
-          />
-        </Flex>
-        <Button variant="primary" onPress={() => setCount((c) => c + 5)}>
-          {count}
+      <div style={{ background: "red", gridArea: GridArea.SIDEBAR }}></div>
+      <View
+        mode={mode}
+        config={{
+          [ViewMode.SIDE_BY_SIDE]: { gridArea: GridArea.LEFT },
+          [ViewMode.CONTENT]: { gridArea: GridArea.LEFT },
+        }}
+        style={{
+          background: "orange",
+          display: "grid",
+          placeContent: "center",
+        }}
+      >
+        <Button variant="primary" onPress={handleModeChange}>
+          change type
         </Button>
       </View>
       <View
-        backgroundColor="purple-600"
-        gridArea="content"
-        height="size-4600"
-      />
-      <View
-        backgroundColor="magenta-600"
-        gridArea="toc"
-        minHeight="size-1000"
-        isHidden={{ base: true, L: true }}
-      />
-      <Footer />
+        mode={mode}
+        config={{
+          [ViewMode.SIDE_BY_SIDE]: { gridArea: GridArea.MAIN },
+          [ViewMode.CONTENT]: { gridArea: GridArea.MAIN, hidden: true },
+        }}
+        style={{
+          background: "teal",
+          display: "grid",
+          placeContent: "center",
+        }}
+      >
+        <Badge variant="yellow">canvas</Badge>
+      </View>
     </Grid>
   );
 }
