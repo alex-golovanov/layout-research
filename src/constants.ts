@@ -1,5 +1,9 @@
 export const ROUTES = [
   {
+    path: "/vanilla",
+    name: "Plain HTML/CSS",
+  },
+  {
     path: "/spectrum",
     name: "Adobe Spectrum",
   },

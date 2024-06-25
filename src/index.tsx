@@ -5,6 +5,7 @@ import { defaultTheme, Provider } from "@adobe/react-spectrum";
 import App from "./App.tsx";
 import Spectrum from "./Spectrum.tsx";
 import ReactGridLayout from "./ReactGridLayout.tsx";
+import Vanilla from "./Vanilla.tsx";
 
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: "/grid-layout",
     element: <ReactGridLayout />,
+  },
+  {
+    path: "/vanilla",
+    element: <Vanilla />,
   },
 ]);
 

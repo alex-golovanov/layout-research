@@ -1,17 +1,16 @@
-import { Grid } from "@adobe/react-spectrum";
 import { Link } from "react-router-dom";
 
 import { ROUTES } from "./constants";
 
 function App() {
   return (
-    <Grid height="100vh" justifyContent="center" alignContent="center">
+    <div style={{ display: "grid", placeContent: "center", height: "100vh" }}>
       {ROUTES.map(({ path, name }) => (
         <Link key={path} to={path}>
           {name}
         </Link>
       ))}
-    </Grid>
+    </div>
   );
 }
 
