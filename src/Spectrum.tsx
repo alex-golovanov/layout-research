@@ -5,20 +5,22 @@ import { View } from "./components";
 import { GridArea, ViewMode } from "./enums";
 
 function Spectrum() {
-  const [mode, setMode] = useState<ViewMode.CONTENT | ViewMode.SIDE_BY_SIDE>(
+  const [mode, setMode] = useState<ViewMode.CODE_EDIT | ViewMode.SIDE_BY_SIDE>(
     ViewMode.SIDE_BY_SIDE
   );
 
   const handleModeChange = () => {
     setMode((prevMode) =>
-      prevMode === ViewMode.CONTENT ? ViewMode.SIDE_BY_SIDE : ViewMode.CONTENT
+      prevMode === ViewMode.CODE_EDIT
+        ? ViewMode.SIDE_BY_SIDE
+        : ViewMode.CODE_EDIT
     );
   };
 
   const columns = useMemo<string[]>(() => {
     const config = {
       [ViewMode.SIDE_BY_SIDE]: ["50px", "1fr", "1fr"],
-      [ViewMode.CONTENT]: ["50px", "1fr"],
+      [ViewMode.CODE_EDIT]: ["50px", "1fr"],
     };
 
     return config[mode];
@@ -26,17 +28,17 @@ function Spectrum() {
 
   return (
     <Grid
-      areas={[`${GridArea.SIDEBAR} ${GridArea.LEFT} ${GridArea.MAIN}`]}
+      areas={[`${GridArea.SIDEBAR} ${GridArea.LEFT} ${GridArea.CANVAS}`]}
       columns={columns}
-      gap="size-100"
       height="100vh"
     >
       <div style={{ background: "red", gridArea: GridArea.SIDEBAR }}></div>
       <View
         mode={mode}
+        defaultArea={GridArea.LEFT}
         config={{
           [ViewMode.SIDE_BY_SIDE]: { gridArea: GridArea.LEFT },
-          [ViewMode.CONTENT]: { gridArea: GridArea.LEFT },
+          [ViewMode.CODE_EDIT]: { gridArea: GridArea.LEFT },
         }}
         style={{
           background: "orange",
@@ -50,9 +52,10 @@ function Spectrum() {
       </View>
       <View
         mode={mode}
+        defaultArea={GridArea.CANVAS}
         config={{
-          [ViewMode.SIDE_BY_SIDE]: { gridArea: GridArea.MAIN },
-          [ViewMode.CONTENT]: { gridArea: GridArea.MAIN, hidden: true },
+          [ViewMode.SIDE_BY_SIDE]: { gridArea: GridArea.CANVAS },
+          [ViewMode.CODE_EDIT]: { gridArea: GridArea.CANVAS, hidden: true },
         }}
         style={{
           background: "teal",

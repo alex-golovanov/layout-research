@@ -1,12 +1,14 @@
 export enum ViewMode {
   SIDE_BY_SIDE = "SIDE_BY_SIDE",
-  CONTENT = "CONTENT",
+  CODE_EDIT = "CODE_EDIT",
+  CANVAS_EDIT = "CANVAS_EDIT",
   PREVIEW = "PREVIEW",
 }
 
 export enum GridArea {
   SIDEBAR = "SIDEBAR",
   LEFT = "LEFT",
-  MAIN = "MAIN",
+  EDITOR = "EDITOR",
+  CANVAS = "CANVAS",
   RIGHT = "RIGHT",
 }
