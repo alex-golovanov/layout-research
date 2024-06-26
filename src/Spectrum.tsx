@@ -20,7 +20,7 @@ function Spectrum() {
   const columns = useMemo<string[]>(() => {
     const config = {
       [ViewMode.SIDE_BY_SIDE]: ["50px", "1fr", "1fr"],
-      [ViewMode.CODE_EDIT]: ["50px", "1fr"],
+      [ViewMode.CODE_EDIT]: ["50px", "1fr", "0fr"],
     };
 
     return config[mode];
@@ -46,9 +46,20 @@ function Spectrum() {
           placeContent: "center",
         }}
       >
-        <Button variant="primary" onPress={handleModeChange}>
-          change type
-        </Button>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 12,
+          }}
+        >
+          <Badge variant="magenta">editor</Badge>
+          <Button variant="primary" onPress={handleModeChange}>
+            {mode === ViewMode.CODE_EDIT ? "side-by-side" : "code editor"}
+          </Button>
+        </div>
       </View>
       <View
         mode={mode}
