@@ -1,0 +1,1 @@
+export { resolveAreasVisibility } from "./resolveAreasVisibility";
