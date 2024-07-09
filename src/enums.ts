@@ -6,6 +6,7 @@ export enum ViewMode {
 }
 
 export enum GridArea {
+  HEADER = "HEADER",
   SIDEBAR = "SIDEBAR",
   LEFT = "LEFT",
   EDITOR = "EDITOR",

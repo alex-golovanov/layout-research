@@ -1,1 +1,1 @@
-export { View } from "./View";
+export { AnimatedGridLayout, LayoutArea } from "./AnimatedGridLayout";

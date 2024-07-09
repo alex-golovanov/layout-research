@@ -1,6 +1,6 @@
 import React, { ReactElement, cloneElement } from "react";
 
-import { animated, useSpring } from "@react-spring/web";
+import { animated, useSpring, useChain, useSpringRef } from "@react-spring/web";
 
 import { usePrevious } from "./hooks";
 import { DEFAULT_ROWS } from "./constants";
@@ -34,19 +34,25 @@ export function AnimatedGridLayout(props: GridLayoutProps) {
     .map((area) => `"${area.join(" ")}"`)
     .join("\n");
 
+  const templateRowsAnimationRef = useSpringRef();
   const gridTemplateRows = rows.join(" ");
   const prevGridTemplateRows = usePrevious(gridTemplateRows);
+  const animatedGridTemplateRows = useSpring({
+    ref: templateRowsAnimationRef,
+    from: { girdTemplateColumns: prevGridTemplateRows },
+    to: { gridTemplateRows },
+  });
 
+  const templateColumnsAnimationRef = useSpringRef();
   const gridTemplateColumns = columns.join(" ");
   const prevGridTemplateColumns = usePrevious(gridTemplateColumns);
-
-  const spring = useSpring({
-    from: {
-      girdTemplateColumns: prevGridTemplateColumns,
-      gridTemplateRows: prevGridTemplateRows,
-    },
-    to: { gridTemplateColumns, gridTemplateRows },
+  const animatedGridTemplateColumns = useSpring({
+    ref: templateColumnsAnimationRef,
+    from: { girdTemplateColumns: prevGridTemplateColumns },
+    to: { gridTemplateColumns },
   });
+
+  useChain([templateColumnsAnimationRef, templateRowsAnimationRef], [0.2, 0]);
 
   const visibility = resolveAreasVisibility({ rows, columns, areas });
 
@@ -63,7 +69,8 @@ export function AnimatedGridLayout(props: GridLayoutProps) {
         width: width ?? "auto",
         height: height ?? "auto",
         gap: 0,
-        ...spring,
+        ...animatedGridTemplateRows,
+        ...animatedGridTemplateColumns,
       }}
     >
       {components}

@@ -1,2 +1,2 @@
-export { AnimatedGridLayout as default } from "./AnimatedGridLayout";
+export { AnimatedGridLayout } from "./AnimatedGridLayout";
 export { LayoutArea } from "./components";
