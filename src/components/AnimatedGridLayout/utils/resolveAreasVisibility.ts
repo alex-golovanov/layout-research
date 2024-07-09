@@ -1,23 +1,23 @@
 import { normalizeMeasurement } from "./normalizeMeasurement";
 
-interface ResolveAreasVisibilityProps<T> {
+export interface ResolveAreasVisibilityProps {
   rows: string[];
   columns: string[];
-  areas: T[][];
+  areas: string[][];
 }
 
 /**
  * Resolves the visibility of areas in a grid layout.
  */
-export function resolveAreasVisibility<T extends string>({
+export function resolveAreasVisibility({
   rows,
   columns,
   areas,
-}: ResolveAreasVisibilityProps<T>): Record<T, boolean> {
+}: ResolveAreasVisibilityProps): Record<string, boolean> {
   const normalizedRows = rows.map(normalizeMeasurement);
   const normalizeColumns = columns.map(normalizeMeasurement);
 
-  const result = {} as Record<T, boolean>;
+  const result: Record<string, boolean> = {};
   for (let rowIndex = 0; rowIndex < areas.length; rowIndex++) {
     const areasRow = areas[rowIndex];
     for (let columnIndex = 0; columnIndex < areasRow.length; columnIndex++) {
