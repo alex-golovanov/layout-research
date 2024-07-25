@@ -1,5 +1,6 @@
 import { animated, useSpring } from "react-spring";
 import { SPRING_CONFIG } from "./constants";
+import { SPRING_ANIMATION_CONFIG } from "../../constants";
 
 export interface LayoutAreaProps {
   name: string;
@@ -10,13 +11,18 @@ export interface LayoutAreaProps {
 export function LayoutArea(props: LayoutAreaProps) {
   const { hidden = false, name, children } = props;
   const display = hidden ? "none" : "block";
-  const springs = useSpring(SPRING_CONFIG[display]);
+  const springs = useSpring({
+    config: SPRING_ANIMATION_CONFIG,
+    ...SPRING_CONFIG[display],
+  });
 
   return (
     <animated.div
       style={{
         gridArea: name,
         position: "relative",
+        animationFillMode: "forwards",
+        willChange: "auto",
         ...springs,
       }}
     >
@@ -25,6 +31,7 @@ export function LayoutArea(props: LayoutAreaProps) {
           width: "100%",
           height: "100%",
           position: "absolute",
+          overflow: "auto",
         }}
       >
         {children}
