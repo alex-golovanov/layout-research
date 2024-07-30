@@ -1,3 +1,4 @@
+import React from "react";
 import { animated, useSpring } from "react-spring";
 import { SPRING_CONFIG } from "./constants";
 import { SPRING_ANIMATION_CONFIG } from "../../constants";
@@ -9,7 +10,7 @@ export interface LayoutAreaProps {
 }
 
 export function LayoutArea(props: LayoutAreaProps) {
-  const { hidden = false, name, children } = props;
+  const { children, hidden = false, name } = props;
   const display = hidden ? "none" : "block";
   const springs = useSpring({
     config: SPRING_ANIMATION_CONFIG,
