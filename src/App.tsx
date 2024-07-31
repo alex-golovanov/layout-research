@@ -1,8 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { faker } from "@faker-js/faker";
 
 import { GridArea, ViewMode } from "./enums";
-import { AnimatedGridLayout, LayoutArea } from "./components";
+import {
+  AnimatedGridLayout,
+  LayoutArea,
+  type AnimatedGridUnit,
+} from "./components";
 
 const AREAS = [
   [
@@ -21,17 +25,17 @@ const AREAS = [
   ],
 ];
 
-const ROWS = {
-  [ViewMode.SIDE_BY_SIDE]: ["0px", "1fr"],
+const ROWS: Record<ViewMode, AnimatedGridUnit[]> = {
+  [ViewMode.SIDE_BY_SIDE]: ["0fr", "1fr"],
   [ViewMode.CODE_EDIT]: ["0px", "1fr"],
   [ViewMode.CANVAS_EDIT]: ["0px", "1fr"],
   [ViewMode.PREVIEW]: ["50px", "1fr"],
 };
 
-const COLUMNS = {
+const COLUMNS: Record<ViewMode, AnimatedGridUnit[]> = {
   [ViewMode.SIDE_BY_SIDE]: ["50px", "0fr", "1fr", "1fr", "0fr"],
-  [ViewMode.CODE_EDIT]: ["50px", "1fr", "2fr", "0fr", "0fr"],
-  [ViewMode.CANVAS_EDIT]: ["50px", "1fr", "0fr", "3fr", "1fr"],
+  [ViewMode.CODE_EDIT]: ["50px", "250px", "2fr", "0fr", "0fr"],
+  [ViewMode.CANVAS_EDIT]: ["50px", "250px", "0fr", "3fr", "1fr"],
   [ViewMode.PREVIEW]: ["0px", "0fr", "0fr", "1fr", "0fr"],
 };
 
@@ -51,7 +55,7 @@ const BACKGROUNDS: Partial<Record<GridArea, string>> = {
   [GridArea.HEADER]: "#F81407",
 };
 
-const Cell = ({ type }: { type: `${GridArea}` }) => {
+const Cell = React.memo(({ type }: { type: `${GridArea}` }) => {
   return (
     <div
       style={{
@@ -74,7 +78,7 @@ const Cell = ({ type }: { type: `${GridArea}` }) => {
       </div>
     </div>
   );
-};
+});
 
 function App() {
   const [mode, setMode] = useState<ViewMode>(ViewMode.SIDE_BY_SIDE);
@@ -104,13 +108,13 @@ function App() {
           }}
         >
           <button onClick={() => setMode(ViewMode.CODE_EDIT)}>CODE_EDIT</button>
+          <button onClick={() => setMode(ViewMode.SIDE_BY_SIDE)}>
+            SIDE_BY_SIDE
+          </button>
           <button onClick={() => setMode(ViewMode.CANVAS_EDIT)}>
             CANVAS_EDIT
           </button>
           <button onClick={() => setMode(ViewMode.PREVIEW)}>PREVIEW</button>
-          <button onClick={() => setMode(ViewMode.SIDE_BY_SIDE)}>
-            SIDE_BY_SIDE
-          </button>
         </div>
 
         <AnimatedGridLayout
@@ -149,9 +153,6 @@ function App() {
             <Cell type="CANVAS" />
           </LayoutArea>
           <LayoutArea name={GridArea.RIGHT}>
-            {/* <div style={{ ...COMMON_CELL_STYLES, background: "blue" }}>
-              RIGHT
-            </div> */}
             <Cell type={GridArea.RIGHT} />
           </LayoutArea>
         </AnimatedGridLayout>

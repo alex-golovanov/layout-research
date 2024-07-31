@@ -1,1 +1,5 @@
-export { AnimatedGridLayout, LayoutArea } from "./AnimatedGridLayout";
+export {
+  AnimatedGridLayout,
+  LayoutArea,
+  type AnimatedGridUnit,
+} from "./AnimatedGridLayout";
